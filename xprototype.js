@@ -6,8 +6,14 @@
 	}
 	ctx.$isDef = $isDef;
 
-	// Type Check
 	Object.defineProperties(Object.prototype, {
+		// Object: Length
+		length: {
+			configurable: true,
+			enumerable: false,
+			get: function () { return Object.keys(this).length; }
+		},
+		// Type Check
 		isNumber: {
 			configurable: true,
 			enumerable: false,
@@ -89,7 +95,8 @@
 	function a2s(x, glue) {
 		var i, a = [];
 		for (i in x)
-			a.push(o2s(x[i]));
+			if (x.hasOwnProperty(i))
+				a.push(o2s(x[i]));
 		return a.join(glue || ',');
 	}
 	function o2s(x) {
@@ -103,6 +110,7 @@
 			return 'undefined';
 		if (x === null)
 			return 'null';
+
 		var i, a = [];
 		for (i in x)
 			if (x.hasOwnProperty(i))
@@ -166,13 +174,6 @@
 			return s;
 		return s.substring(0, max).replace(/\s*$/, '') + end;
 	};
-	
-	// Object: Length
-	Object.defineProperty(Object.prototype, 'length', {
-		configurable: true,
-		enumerable: false,
-		get: function () { return Object.keys(this).length; }
-	});
 	
 	// Define Property & Properties
 	Object.prototype.defineProperty = function (prop, descriptor) {
