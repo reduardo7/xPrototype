@@ -186,16 +186,20 @@
 	// x.each(function (KeyOrIndex, value) { ... })
 	// Return FALSE to Break
 	Object.prototype.each = function (fn) {
-		$validate('fn', fn).def().function();
+		if (typeof fn !== 'function')
+			return undefined; // Error
 		for (var i in this)
 			if (this.hasOwnProperty(i) && (fn.apply(this[i], [i, this[i]]) === false))
-				break;
+				return false; // Break
+		return true; // All finish
 	};
 	Array.prototype.each = function (fn) {
-		$validate('fn', fn).def().function();
+		if (typeof fn !== 'function')
+			return undefined; // Error
 		for (var i in this)
 			if (fn.apply(this[i], [i, this[i]]) === false)
-				break;
+				return false; // Break
+		return true; // All finish
 	};
 	
 	// Index Of
