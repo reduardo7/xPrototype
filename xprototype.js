@@ -193,14 +193,6 @@
 				return false; // Break
 		return true; // All finish
 	};
-	Array.prototype.each = function (fn) {
-		if (typeof fn !== 'function')
-			return undefined; // Error
-		for (var i in this)
-			if (fn.apply(this[i], [i, this[i]]) === false)
-				return false; // Break
-		return true; // All finish
-	};
 	
 	// Index Of
 	Object.prototype.indexOf = function (x) {
