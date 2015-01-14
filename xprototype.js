@@ -37,12 +37,12 @@
 		isInt: {
 			configurable: true,
 			enumerable: false,
-			get: function () { return (this instanceof Number) && (this === parseInt(this, 10)); }
+			get: function () { return (this instanceof Number) && ((this + 0) === parseInt(this, 10)); }
 		},
 		isFloat: {
 			configurable: true,
 			enumerable: false,
-			get: function () { return (this instanceof Number) && (this === parseFloat(this)); }
+			get: function () { return (this instanceof Number) && ((this + 0) === parseFloat(this)); }
 		},
 		isArray: {
 			configurable: true,
@@ -75,7 +75,7 @@
 		return true; // All finish
 	};
 
-	// Number: Times
+	// Number: Step
 	//(4).step(10, 2, function (index) { ... });
 	Number.prototype.step = function (to, step, fn) {
 		if (isNaN(to) || (to === 0))
