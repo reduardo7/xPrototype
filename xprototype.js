@@ -125,6 +125,33 @@
 	Array.prototype.toString = function (glue) {
 		return a2s(this, glue);
 	};
+
+	// Clone
+	function clone(x, r) {
+		if ((x === undefined) || (x === null) || (typeof x === 'string') || (typeof x === 'number') || (typeof x === 'function'))
+			return x;
+		if (x instanceof Array) {
+			if (r) {
+				var i, a = new Array(x.length);
+				for (i in x) if (x.hasOwnProperty(i))
+					a[i] = clone(x[i], true);
+				return a;
+			} else {
+				return x.slice();
+			}
+		}
+		
+		var i, o = new x.constructor();
+		for (i in x) if (x.hasOwnProperty(i))
+			o[i] = r ? x[i] : clone(x[i], true);
+		return o;
+	}
+	Object.prototype.clone = function (recursive) {
+		return clone(this, recursive);
+	};
+	Array.prototype.clone = function(recursive) {
+		return clone(this, recursive);
+	};
 	
 	// String: Trim
 	if (typeof String.prototype.trim !== 'function') {
