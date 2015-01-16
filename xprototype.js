@@ -85,9 +85,10 @@
 		if (typeof fn != 'function')
 			return undefined; // Error
 
-		for (var i = this + 0; i <= to; i = i + step)
+		for (var i = this + 0; i <= to; i += step)
 			if (fn.apply(this, [i]) === false)
 				return false; // Break
+		
 		return true; // All finish
 	};
 
@@ -137,11 +138,11 @@
 					a[i] = clone(x[i], true);
 				return a;
 			} else {
-				return x.slice();
+				return x.slice(0);
 			}
 		}
 		
-		var i, o = new x.constructor();
+		var i, o = Object.create(x);
 		for (i in x) if (x.hasOwnProperty(i))
 			o[i] = r ? x[i] : clone(x[i], true);
 		return o;
