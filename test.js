@@ -111,7 +111,7 @@ function $Test(name) {
 				c++;
 			}
 
-			console.log('###', 'Finish Tests [', name, '] | Executed', c, '| Ok:', oc, '| Errors:', ec);
+			console[(ec === 0) ? 'log' : 'error']('###', 'Finish Tests [', name, '] | Executed', c, '| Ok:', oc, '| Errors:', ec);
 
 			return this;
 		};
@@ -302,7 +302,7 @@ $Test('property.getType()')
 	.Eq(([5, 9, null]).getType(), 'array')
 	.Run();
 
-$Test('property.times')
+$Test('Number.property.times')
 	.IsUndef(([]).times)
 	.IsUndef(({}).times)
 	.IsUndef(('').times)
@@ -321,6 +321,14 @@ $Test('property.times')
 	})
 	.Test(function () {
 		var c = 0;
+		(10).times(function (i) {
+			c++;
+			if (i === 4) return false; // Break
+		});
+		if (c !== 5) throw 'Count is not 5';
+	})
+	.Test(function () {
+		var c = 0;
 		var values = [0, 1, 2, 3, 4, 5];
 		(5.5).times(function (i) {
 			if (values[c] !== i) throw 'Error Index [' + i + ']';
@@ -332,4 +340,52 @@ $Test('property.times')
 		(-1).times(function () { throw '-1'; });
 		(0).times(function () { throw '0'; });
 	})
+	.True((1).times(function () { }))
+	.False((5).times(function () { return false; /* Break */ }))
+	.IsUndef((5).times())
+	.IsUndef((5).times(null))
+	.IsUndef((5).times(undefined))
+	.IsUndef((5).times(''))
+	.IsUndef((5).times(0))
+	.IsUndef((5).times(false))
+	.Run();
+
+$Test('Number.property.step')
+	.IsUndef(([]).step)
+	.IsUndef(({}).step)
+	.IsUndef(('').step)
+	.IsUndef((false).step)
+	.IsUndef((function(){}).step)
+	.IsDef((1).step)
+	.Eq((1).step.getType(), 'function')
+	.Test(function () {
+		var c = 0;
+		var values = [5, 7];
+		(5).step(8, 2, function (i) {
+			if (values[c] !== i) throw 'Error Index [' + i + ']';
+			c++;
+		});
+		if (c !== 2) throw 'Count is not 2';
+	})
+	.Test(function () {
+		(-1).step(-10, -1, function (i) {
+			throw 'No step back';
+		});
+	})
+	.Test(function () {
+		var c = 0;
+		(5).step(100, 2, function (i) {
+			c++;
+			if (i === 7) return false; // Break
+		});
+		if (c !== 2) throw 'Count is not 2';
+	})
+	.True((1).step(1, 1, function () { }))
+	.False((5).step(10, 1, function () { return false; /* Break */ }))
+	.IsUndef((5).step())
+	.IsUndef((5).step(null))
+	.IsUndef((5).step(undefined))
+	.IsUndef((5).step(''))
+	.IsUndef((5).step(0))
+	.IsUndef((5).step(false))
 	.Run();
