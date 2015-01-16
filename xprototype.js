@@ -127,6 +127,38 @@
 		return a2s(this, glue);
 	};
 
+	// Function: Timeout
+	Function.prototype.timeout = function (t, args) {
+		var f = this;
+		return this.timeout.id = setTimeout(function () {
+			f.apply(null,args);
+		}, t);
+	};
+	Function.prototype.timeout.id = undefined;
+	Function.prototype.timeout.stop = function () {
+		if (this.timeout.id) {
+			clearTimeout(this.timeout.id);
+			return true;
+		}
+		return false;
+	};
+
+	// Function: Interval
+	Function.prototype.interval = function (t, args) {
+		var f = this;
+		return this.interval.id = setInterval(function () {
+			f.apply(null,args);
+		}, t);
+	};
+	Function.prototype.interval.id = undefined;
+	Function.prototype.interval.stop = function () {
+		if (this.interval.id) {
+			clearInterval(this.interval.id);
+			return true;
+		}
+		return false;
+	};
+
 	// Clone
 	function clone(x, r) {
 		if ((x === undefined) || (x === null) || (typeof x === 'string') || (typeof x === 'number') || (typeof x === 'function'))
