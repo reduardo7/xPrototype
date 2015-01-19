@@ -1,98 +1,9 @@
-(function (ctx) {
-	// Defined
-	// if ($isDef(foo)) { ... }
-	function $isDef(x) {
-		return (x !== undefined) && (x !== null);
-	}
-	ctx.$isDef = $isDef;
-
-	Object.defineProperties(Object.prototype, {
-		// Object: Length
-		length: {
-			configurable: true,
-			enumerable: false,
-			get: function () { return Object.keys(this).length; }
-		},
-		// Type Check
-		isNumber: {
-			configurable: true,
-			enumerable: false,
-			get: function () { return this instanceof Number; }
-		},
-		isString: {
-			configurable: true,
-			enumerable: false,
-			get: function () { return this instanceof String; }
-		},
-		isFunction: {
-			configurable: true,
-			enumerable: false,
-			get: function () { return this instanceof Function; }
-		},
-		isBool: {
-			configurable: true,
-			enumerable: false,
-			get: function () { return this instanceof Boolean; }
-		},
-		isInt: {
-			configurable: true,
-			enumerable: false,
-			get: function () { return (this instanceof Number) && ((this + 0) === parseInt(this, 10)); }
-		},
-		isFloat: {
-			configurable: true,
-			enumerable: false,
-			get: function () { return (this instanceof Number) && ((this + 0) === parseFloat(this)); }
-		},
-		isArray: {
-			configurable: true,
-			enumerable: false,
-			get: function () { return this instanceof Array; }
-		}
-	});
-
-	// Get Type
-	Object.prototype.getType = function () {
-		if (this.isString) return 'string';
-		if (this.isFunction) return 'function';
-		if (this.isBool) return 'bool';
-		if (this.isInt) return 'int';
-		if (this.isFloat) return 'float';
-		if (this.isArray) return 'array';
-		return typeof this;
-	};
-
-	// Number: Times
-	//(4).times(function (index) { ... });
-	Number.prototype.times = function (fn) {
-		if (typeof fn != 'function')
-			return undefined; // Error
-		if (this <= 0)
-			return null; // Error
-		for (var i = 0; i < this + 0; i++)
-			if (fn.apply(this, [i]) === false)
-				return false; // Break
-		return true; // All finish
-	};
-
-	// Number: Step
-	//(4).step(10, 2, function (index) { ... });
-	Number.prototype.step = function (to, step, fn) {
-		if (isNaN(to) || (to === 0))
-			return undefined; // Error
-		if (isNaN(step) || (step === 0))
-			return undefined; // Error
-		if (typeof fn != 'function')
-			return undefined; // Error
-
-		for (var i = this + 0; i <= to; i += step)
-			if (fn.apply(this, [i]) === false)
-				return false; // Break
-		
-		return true; // All finish
-	};
-
-	// ToString
+// http://perfectionkills.com/extending-native-builtins/
+(function () {
+	/** *** **
+	 *  AUX  *
+	 ** *** **/
+	
 	function a2s(x, glue) {
 		var i, a = [];
 		for (i in x)
@@ -100,6 +11,7 @@
 				a.push(o2s(x[i]));
 		return a.join(glue || ',');
 	}
+
 	function o2s(x) {
 		if (typeof x === 'string')
 			return '"' + x + '"';
@@ -119,47 +31,22 @@
 		return '{' + a.join(',') + '}';
 	}
 
-	Object.prototype.toString = function (glue) {
-		return o2s(this, glue);
-	};
+	function pget(fn) {
+		return {
+			configurable: true,
+			enumerable: false,
+			get: fn
+		};
+	}
 
-	Array.prototype.toString = function (glue) {
-		return a2s(this, glue);
-	};
+	function pval(fn) {
+		return {
+			configurable: true,
+			enumerable: false,
+			value: fn
+		};
+	}
 
-	// Function: Timeout
-	Function.prototype.timeout = function (t, args) {
-		var f = this;
-		return this.timeout.id = setTimeout(function () {
-			f.apply(null,args);
-		}, t);
-	};
-	Function.prototype.timeout.id = undefined;
-	Function.prototype.timeout.stop = function () {
-		if (this.timeout.id) {
-			clearTimeout(this.timeout.id);
-			return true;
-		}
-		return false;
-	};
-
-	// Function: Interval
-	Function.prototype.interval = function (t, args) {
-		var f = this;
-		return this.interval.id = setInterval(function () {
-			f.apply(null,args);
-		}, t);
-	};
-	Function.prototype.interval.id = undefined;
-	Function.prototype.interval.stop = function () {
-		if (this.interval.id) {
-			clearInterval(this.interval.id);
-			return true;
-		}
-		return false;
-	};
-
-	// Clone
 	function clone(x, r) {
 		if ((x === undefined) || (x === null) || (typeof x === 'string') || (typeof x === 'number') || (typeof x === 'function'))
 			return x;
@@ -179,128 +66,6 @@
 			o[i] = r ? x[i] : clone(x[i], true);
 		return o;
 	}
-	Object.prototype.clone = function (recursive) {
-		return clone(this, recursive);
-	};
-	Array.prototype.clone = function(recursive) {
-		return clone(this, recursive);
-	};
-	
-	// String: Trim
-	if (typeof String.prototype.trim !== 'function') {
-		String.prototype.trim = function () {
-			return this.replace(/^\s+|\s+$/g, '');
-		};
-	}
-	
-	// String: ToCamelCase
-	String.prototype.toCamelCase = function () {
-		return this.replace(/([\-\_\s]+)([a-zA-Z])/g, function ($1, $2, $3) {
-			return $3.charAt(0).toUpperCase();
-		});
-	};
-	
-	// String: SplitCamelCase
-	String.prototype.splitCamelCase = function (glue) {
-		var arr = this.replace(/([A-Z]+)/g, ' $1').toLowerCase().split(' ');
-		return (glue === undefined) ? arr : arr.join(glue);
-	};
-	
-	// String: Repeat
-	String.prototype.repeat = function (n) {
-		n = parseInt(n, 10);
-		if (isNaN(n) || n < 0)
-			return null;
-		return new Array(n + 1).join(this);
-	};
-	
-	// String: Cut and add "..." to the end
-	String.prototype.cut = function (max, end /*'...'*/) {
-		if (end)
-			end = end.toString().trim();
-		if (!end)
-			end = '...';
-		var l = end.length;
-		max = parseInt(max, 10);
-		if (isNaN(max) || (max < l))
-			max = 0;
-		var s = this.trim();
-		if (s === '')
-			return '';
-		if (max <= l)
-			return end;
-		max = max - l;
-		if (s.length <= max)
-			return s;
-		return s.substring(0, max).replace(/\s*$/, '') + end;
-	};
-	
-	// Define Property & Properties
-	Object.prototype.defineProperty = function (prop, descriptor) {
-		Object.defineProperty(this, prop, descriptor);
-	};
-	Object.prototype.defineProperties = function (props) {
-		Object.defineProperties(this, props);
-	};
-	
-	// For Each
-	// x.each(function (KeyOrIndex, value) { ... })
-	// Return FALSE to Break
-	Object.prototype.each = function (fn) {
-		if (typeof fn !== 'function')
-			return undefined; // Error
-		for (var i in this)
-			if (this.hasOwnProperty(i) && (fn.apply(this[i], [i, this[i]]) === false))
-				return false; // Break
-		return true; // All finish
-	};
-	
-	// Index Of
-	Object.prototype.indexOf = function (x) {
-		for (var i in this)
-			if (this.hasOwnProperty(i) && (this[i] === x))
-				return i;
-		return null;
-	};
-	
-	// Contains
-	Object.prototype.contains = function (x) {
-		return this.indexOf(x) !== null;
-	};
-	Array.prototype.contains = function (x) {
-		return this.indexOf(x) > -1;
-	};
-	
-	// Contains Key
-	Object.prototype.containsKey = function (x) {
-		return this.hasOwnProperty(x);
-	};
-	
-	// Convert
-	Object.prototype.toBool = function () {
-		if (this === true)
-			return true;
-		if (this === false)
-			return false;
-		var v = parseInt(this, 10);
-		if (!isNaN(v))
-			return (v !== 0);
-		v = this.toString();
-		if (v.trim() === '')
-			return false;
-		v = v.toLowerCase();
-		if ((v === 'true') || (v === 't'))
-			return true;
-		if ((v === 'false') || (v === 'f'))
-			return false;
-		return !!this; // To Boolean
-	};
-	Object.prototype.toInt = function () {
-		return parseInt(this, 10);
-	};
-	Object.prototype.toFloat = function () {
-		return parseFloat(this);
-	};
 	
 	// MD5
 	// http://www.myersdaily.org/joseph/javascript/md5-text.html
@@ -468,7 +233,279 @@
 		}
 	}
 
-	Object.prototype.md5 = function () {
-		return md5(this.toString());
+
+	/** ******* **
+	 *  Defined  *
+	 ** ******* **/
+	
+	Object.defineProperties(Object, {
+		defined: pval(function (x) {
+			return (x !== undefined) && (x !== null);
+		})
+	});
+
+	/** ****** **
+	 *  Object  *
+	 ** ****** **/
+	
+	Object.defineProperties(Object.prototype, {
+		// Length
+		length: pget(function () { return Object.keys(this).length; }),
+
+		// Keys
+		getKeys: pval(function () { return Object.keys(this); }),
+
+		// Values
+		getValues: pval(function () {
+			var i, k = Object.keys(this), v = [];
+			for (i in k)
+				v.push(this[k[i]]);
+			return v;
+		}),
+		
+		// Type Check
+		isNumber: pget(function () { return this instanceof Number; }),
+		isString: pget(function () { return this instanceof String; }),
+		isFunction: pget(function () { return this instanceof Function; }),
+		isBool: pget(function () { return this instanceof Boolean; }),
+		isInt: pget(function () { return (this instanceof Number) && ((this + 0) === parseInt(this, 10)); }),
+		isFloat: pget(function () { return (this instanceof Number) && ((this + 0) === parseFloat(this)); }),
+		isArray: pget(function () { return this instanceof Array; }),
+
+		// Get Type
+		getType: pval(function () {
+			if (this.isString) return 'string';
+			if (this.isFunction) return 'function';
+			if (this.isBool) return 'bool';
+			if (this.isInt) return 'int';
+			if (this.isFloat) return 'float';
+			if (this.isArray) return 'array';
+			return typeof this;
+		}),
+
+		// To String
+		toString: pval(function (glue) {
+			return o2s(this, glue);
+		}),
+
+		// Clone
+		clone: pval(function (recursive) {
+			return clone(this, recursive);
+		}),
+
+		// For Each
+		// x.each(function (KeyOrIndex, value) { ... })
+		// Return FALSE to Break
+		each: pval(function (fn) {
+			if (typeof fn !== 'function')
+				return undefined; // Error
+			for (var i in this)
+				if (this.hasOwnProperty(i) && (fn.apply(this[i], [i, this[i]]) === false))
+					return false; // Break
+			return true; // All finish
+		}),
+
+		// Index Of
+		indexOf: pval(function (x) {
+			for (var i in this)
+				if (this.hasOwnProperty(i) && (this[i] === x))
+					return i;
+			return null;
+		}),
+
+		// Contains
+		contains: pval(function (x) {
+			return this.indexOf(x) !== null;
+		}),
+
+		// Contains Key
+		containsKey: pval(function (x) {
+			return this.hasOwnProperty(x);
+		}),
+
+		// Convert
+		toBool: pval(function () {
+			if (this === true)
+				return true;
+			if (this === false)
+				return false;
+			var v = parseInt(this, 10);
+			if (!isNaN(v))
+				return (v !== 0);
+			v = this.toString();
+			if (v.trim() === '')
+				return false;
+			v = v.toLowerCase();
+			if ((v === 'true') || (v === 't'))
+				return true;
+			if ((v === 'false') || (v === 'f'))
+				return false;
+			return !!this; // To Boolean
+		}),
+		toInt: pval(function () {
+			return parseInt(this, 10);
+		}),
+		toFloat: pval(function () {
+			return parseFloat(this);
+		}),
+
+		// MD5
+		md5: pval(function () {
+			return md5(this.toString());
+		})
+	});
+
+	/** ****** **
+	 *  Number  *
+	 ** ****** **/
+
+	Object.defineProperties(Number.prototype, {
+		// Times
+		//(4).times(function (index) { ... });
+		times: pval(function (fn) {
+			if (typeof fn != 'function')
+				return undefined; // Error
+			if (this <= 0)
+				return null; // Error
+			for (var i = 0; i < this + 0; i++)
+				if (fn.apply(this, [i]) === false)
+					return false; // Break
+			return true; // All finish
+		}),
+
+		// Number: Step
+		//(4).step(10, 2, function (index) { ... });
+		step: pval(function (to, step, fn) {
+			if (isNaN(to) || (to === 0))
+				return undefined; // Error
+			if (isNaN(step) || (step === 0))
+				return undefined; // Error
+			if (typeof fn != 'function')
+				return undefined; // Error
+
+			for (var i = this + 0; i <= to; i += step)
+				if (fn.apply(this, [i]) === false)
+					return false; // Break
+
+			return true; // All finish
+		})
+	});
+
+	/** ***** **
+	 *  Array  *
+	 ** ***** **/
+
+	Object.defineProperties(Array.prototype, {
+		// ToString
+		toString: pval(function (glue) {
+			return a2s(this, glue);
+		}),
+
+		// Contains
+		contains: pval(function (x) {
+			return this.indexOf(x) > -1;
+		})
+	});
+
+	/** ******** **
+	 *  Function  *
+	 ** ******** **/
+	
+	// Timeout
+	function ftimeout(t, args) {
+		var f = this;
+		ftimeout.id = setTimeout(function () {
+			f.apply(null,args);
+		}, t);
+		return this;
 	};
-})(this);
+	ftimeout.id = undefined;
+	ftimeout.stop = function () {
+		if (ftimeout.id) {
+			clearTimeout(ftimeout.id);
+			ftimeout.id = undefined;
+			return true;
+		}
+		return false;
+	};
+
+	// Interval
+	function finterval(t, args) {
+		var f = this;
+		finterval.id = setInterval(function () {
+			f.apply(null,args);
+		}, t);
+		return this;
+	};
+	finterval.id = undefined;
+	finterval.stop = function () {
+		if (finterval.id) {
+			clearInterval(finterval.id);
+			finterval.id = undefined;
+			return true;
+		}
+		return false;
+	};
+
+	Object.defineProperties(Function.prototype, {
+		// Timeout
+		timeout: pval(ftimeout),
+		// Interval
+		interval: pval(finterval)
+	});
+
+	/** ****** **
+	 *  String  *
+	 ** ****** **/
+
+	// String: Trim
+	if (typeof String.prototype.trim !== 'function') {
+		Object.defineProperty(String.prototype, 'trim', pval(function () {
+			return this.replace(/^\s+|\s+$/g, '');
+		}));
+	}
+
+	Object.defineProperties(String.prototype, {
+		// ToCamelCase
+		toCamelCase: pval(function () {
+			return this.replace(/([\-\_\s]+)([a-zA-Z])/g, function ($1, $2, $3) {
+				return $3.charAt(0).toUpperCase();
+			});
+		}),
+
+		// SplitCamelCase
+		splitCamelCase: pval(function (glue) {
+			var arr = this.replace(/([A-Z]+)/g, ' $1').toLowerCase().split(' ');
+			return (glue === undefined) ? arr : arr.join(glue);
+		}),
+
+		// Repeat
+		repeat: pval(function (n) {
+			n = parseInt(n, 10);
+			if (isNaN(n) || n < 0)
+				return null;
+			return new Array(n + 1).join(this);
+		}),
+
+		// Cut and add "..." to the end
+		cut: pval(function (max, end /*'...'*/) {
+			if (end)
+				end = end.toString().trim();
+			if (!end)
+				end = '...';
+			var l = end.length;
+			max = parseInt(max, 10);
+			if (isNaN(max) || (max < l))
+				max = 0;
+			var s = this.trim();
+			if (s === '')
+				return '';
+			if (max <= l)
+				return end;
+			max = max - l;
+			if (s.length <= max)
+				return s;
+			return s.substring(0, max).replace(/\s*$/, '') + end;
+		})
+	});
+})();
