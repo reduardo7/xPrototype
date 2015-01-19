@@ -233,20 +233,16 @@
 		}
 	}
 
-
-	/** ******* **
-	 *  Defined  *
-	 ** ******* **/
+	/** ****** **
+	 *  Object  *
+	 ** ****** **/
 	
+	// Defined
 	Object.defineProperties(Object, {
 		defined: pval(function (x) {
 			return (x !== undefined) && (x !== null);
 		})
 	});
-
-	/** ****** **
-	 *  Object  *
-	 ** ****** **/
 	
 	Object.defineProperties(Object.prototype, {
 		// Length
@@ -268,8 +264,8 @@
 		isString: pget(function () { return this instanceof String; }),
 		isFunction: pget(function () { return this instanceof Function; }),
 		isBool: pget(function () { return this instanceof Boolean; }),
-		isInt: pget(function () { return (this instanceof Number) && ((this + 0) === parseInt(this, 10)); }),
-		isFloat: pget(function () { return (this instanceof Number) && ((this + 0) === parseFloat(this)); }),
+		isInt: pget(function () { return (this instanceof Number) && (this.valueOf() === parseInt(this, 10)); }),
+		isFloat: pget(function () { return (this instanceof Number) && (this.valueOf() === parseFloat(this)); }),
 		isArray: pget(function () { return this instanceof Array; }),
 
 		// Get Type
@@ -367,7 +363,7 @@
 				return undefined; // Error
 			if (this <= 0)
 				return null; // Error
-			for (var i = 0; i < this + 0; i++)
+			for (var i = 0; i < this.valueOf(); i++)
 				if (fn.apply(this, [i]) === false)
 					return false; // Break
 			return true; // All finish
@@ -383,7 +379,7 @@
 			if (typeof fn != 'function')
 				return undefined; // Error
 
-			for (var i = this + 0; i <= to; i += step)
+			for (var i = this.valueOf(); i <= to; i += step)
 				if (fn.apply(this, [i]) === false)
 					return false; // Break
 
