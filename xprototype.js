@@ -483,6 +483,11 @@
 			return new Array(n + 1).join(this);
 		}),
 
+		// Contains
+		contains: pval(function (x) {
+			return this.indexOf(x) > -1;
+		}),
+
 		// Cut and add "..." to the end
 		cut: pval(function (max, end /*'...'*/) {
 			if (end)
