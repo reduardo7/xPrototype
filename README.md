@@ -6,7 +6,7 @@
 Determine if `x` is `null` or `undefined`.
 
 ###### Param
-- `x` Variable to check.
+1. `x` Variable to check.
 
 ###### Return
 `true` if defined (is not `null` and is not `undefined`).
