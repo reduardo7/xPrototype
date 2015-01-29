@@ -6,10 +6,10 @@
 Determine if `x` is `null` or `undefined`.
 
 ###### Param
-`x` Variable to check.
+- `x` Variable to check.
 
 ###### Return
-`true` if defined (is not `null` nor `undefined`).
+`true` if defined (is not `null` and is not `undefined`).
 
 ## Object Properties
 
