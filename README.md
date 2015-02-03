@@ -32,86 +32,86 @@ if (defined(x)) {
 
 ## Object Properties
 
-#### length
+### length
 
-#### isNumber
+### isNumber
 
-#### isString
+### isString
 
-#### isFunction
+### isFunction
 
-#### isBool
+### isBool
 
-#### isInt
+### isInt
 
-#### isFloat
+### isFloat
 
-#### isArray
+### isArray
 
 ## Object Methods
 
-#### getKeys()
+### getKeys()
 
-#### getValues()
+### getValues()
 
-#### getType()
+### getType()
 
-#### toString()
+### toString()
 
-#### each(fn)
+### each(fn)
 
-#### indexOf(x)
+### indexOf(x)
 
-#### contains(x)
+### contains(x)
 
-#### containsKey(x)
+### containsKey(x)
 
-#### toBool()
+### toBool()
 
-#### toInt()
+### toInt()
 
-#### toFloat()
+### toFloat()
 
-#### md5()
+### md5()
 
 ## Array Methods
 
-#### toString(glue)
+### toString(glue)
 
-#### contains(x)
+### contains(x)
 
 ## Function Methods
 
-#### timeout(time, args)
+### timeout(time, args)
 
-###### timeout.id
+##### timeout.id
 
-###### timeout.stop()
+##### timeout.stop()
 
-#### interval(time, args)
+### interval(time, args)
 
-###### interval.id
+##### interval.id
 
-###### interval.stop()
+##### interval.stop()
 
-#### extend(fn)
+### extend(fn)
 
 ## Number Methods
 
-#### times(fn)
+### times(fn)
 
-#### step(to, step, fn)
+### step(to, step, fn)
 
 ## String Methods
 
-#### trim()
+### trim()
 
-#### toCamelcase()
+### toCamelcase()
 
-#### splitCamelCase(glue)
+### splitCamelCase(glue)
 
-#### repeat(times)
+### repeat(times)
 
-#### cut(max, end)
+### cut(max, end)
 
 ### format(p1, p2, p3, pn)
