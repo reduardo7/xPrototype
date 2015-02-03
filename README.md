@@ -11,6 +11,25 @@ Determine if `x` is `null` or `undefined`.
 ###### Return
 `true` if defined (is not `null` and is not `undefined`).
 
+##### Examples
+
+```js
+var x;
+if (!defined(x)) {
+  alert('undefined!');
+}
+
+x = null;
+if (!defined(x)) {
+  alert('undefined!');
+}
+
+x = 1;
+if (defined(x)) {
+  alert('defined!');
+}
+```
+
 ## Object Properties
 
 #### length
@@ -75,6 +94,8 @@ Determine if `x` is `null` or `undefined`.
 
 ###### interval.stop()
 
+#### extend(fn)
+
 ## Number Methods
 
 #### times(fn)
@@ -92,3 +113,5 @@ Determine if `x` is `null` or `undefined`.
 #### repeat(times)
 
 #### cut(max, end)
+
+### format(p1, p2, p3, pn)
