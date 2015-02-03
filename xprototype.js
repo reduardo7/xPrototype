@@ -488,6 +488,14 @@
 			return this.indexOf(x) > -1;
 		}),
 
+		// Format String
+		format: pval(function () {
+			var s = this, i;
+			for (i = 0; i < arguments.length; i++)
+				s = s.replace("%" + i, arguments[i]);
+			return s;
+		}),
+
 		// Cut and add "..." to the end
 		cut: pval(function (max, end /*'...'*/) {
 			if (end)
