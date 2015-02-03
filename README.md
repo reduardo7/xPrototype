@@ -15,17 +15,17 @@ Determine if `x` is `null` or `undefined`.
 
 ```js
 var x;
-if (!defined(x)) {
+if (!Object.defined(x)) {
   alert('undefined!');
 }
 
 x = null;
-if (!defined(x)) {
+if (!Object.defined(x)) {
   alert('undefined!');
 }
 
 x = 1;
-if (defined(x)) {
+if (Object.defined(x)) {
   alert('defined!');
 }
 ```
