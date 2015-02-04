@@ -447,7 +447,14 @@
 		// Timeout
 		timeout: pval(ftimeout),
 		// Interval
-		interval: pval(finterval)
+		interval: pval(finterval),
+		// Extend
+		extend: pval(function (c) {
+			this.prototype = Object.create(c.prototype);
+			this.prototype.constructor = this;
+			this.prototype.base = c;
+			return this;
+		})
 	});
 
 	/** ****** **
