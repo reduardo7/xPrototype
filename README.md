@@ -206,10 +206,79 @@ console.log(i.isArray); // <-- FALSE
 ## Object Methods
 
 ### getKeys()
+Returns ```Object``` keys.
+
+##### Examples
+
+```js
+var i = [1, 'foo', false];
+console.log(i.getKeys()); // <-- ["0", "1", "2"]
+
+i = { 'a': 111, 'b': '222', 'c': null, 'd': undefined, 123: 'num', o: { 'x1': 'x2' } };
+console.log(i.getKeys()); // <-- ["123", "a", "b", "c", "d", "o"]
+
+i = 1.5;
+console.log(i.getKeys()); // <-- []
+
+i = 'foo';
+console.log(i.getKeys()); // <-- ["0", "1", "2"]
+```
 
 ### getValues()
+Returns ```Object``` keys.
+
+##### Examples
+
+```js
+var i = [1, 'foo', false];
+console.log(i.getValues()); // <-- [1, 'foo', false]
+
+i = { 'a': 111, 'b': '222', 'c': null, 'd': undefined, 123: 'num', o: { 'x1': 'x2' } };
+console.log(i.getValues()); // <-- [111, 222, null, undefined, 'num', { 'x1': 'x2' }]
+
+i = 1.5;
+console.log(i.getValues()); // <-- []
+
+i = 'foo';
+console.log(i.getValues()); // <-- ["f", "o", "o"]
+```
 
 ### getType()
+Returns variable type.
+
+##### Posible Values
+
+- string
+- function
+- bool
+- int
+- float
+- array
+
+##### Examples
+
+```js
+var i = [];
+console.log(i.getType()); // <-- "array"
+
+i = { };
+console.log(i.getType()); // <-- "object"
+
+i = 1.5;
+console.log(i.getType()); // <-- "float"
+
+i = 1;
+console.log(i.getType()); // <-- "int"
+
+i = 'foo';
+console.log(i.getType()); // <-- "string"
+
+i = function () {};
+console.log(i.getType()); // <-- "function"
+
+i = false;
+console.log(i.getType()); // <-- "bool"
+```
 
 ### toString()
 
