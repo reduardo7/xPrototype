@@ -280,9 +280,70 @@ i = false;
 console.log(i.getType()); // <-- "bool"
 ```
 
-### toString()
+### toStr(glue)
+Generates string representation.
+
+###### Param
+1. `glue` _Default: *","*_. Glue.
+
+###### Return
+String representation.
+
+##### Examples
+
+```js
+var a = [];
+console.log(a.toString()); // <-- ""
+console.log(a.toStr()); // <-- "[]"
+
+a = [4, 'foo'];
+console.log(a.toString()); // <-- ""
+console.log(a.toStr()); // <-- "[4,"foo"]"
+console.log(a.toStr(';')); // <-- "[4;"foo"]"
+console.log(a.toStr('-*-')); // <-- "[4-*-"foo"]"
+```
+
+### clone()
+Clone an `Object`.
+
+###### Return
+Copy of `Object`.
+
+##### Examples
+
+```js
+var o = {x: 111, y: 222};
+var p = o.clone();
+
+p.x = 333;
+
+console.log(o); // <-- Object {x: 111, y: 222}
+console.log(p); // <-- Object {x: 333, y: 222}
+```
 
 ### each(fn)
+Execute an action for each `Object` in `Array` or `Object`.
+
+###### Param
+1. `fn` { `Function(KeyOrIndex, Value)` } Function to execute for each `Object`.
+
+###### Return
+
+- `TRUE` if executed for each element.
+- `FALSE` if the operation is break.
+- `undefined` if parameter is not a Function.
+
+##### Examples
+
+```js
+var o = {a: 111, b: 222, c: 333};
+o.each(function (key, value) {
+  if (key === 'c')
+    return false; // BREAK
+});
+
+var a = [333, 444];
+```
 
 ### indexOf(x)
 
