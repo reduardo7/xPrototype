@@ -326,11 +326,13 @@ Execute an action for each `Object` in `Array` or `Object`.
 
 ###### Param
 1. `fn` { `Function(KeyOrIndex, Value)` } Function to execute for each `Object`.
+  - Return `false` to _break_.
+  - Return not `false` to _continue_
 
 ###### Return
 
 - `TRUE` if executed for each element.
-- `FALSE` if the operation is break.
+- `FALSE` if the operation is _break_.
 - `undefined` if parameter is not a Function.
 
 ##### Examples
@@ -338,11 +340,19 @@ Execute an action for each `Object` in `Array` or `Object`.
 ```js
 var o = {a: 111, b: 222, c: 333};
 o.each(function (key, value) {
+  if (key === 'b')
+    return; // CONTINUE
   if (key === 'c')
     return false; // BREAK
-});
+  alert(value); // <-- Only show "111"
+}); // <-- Return FALSE
 
 var a = [333, 444];
+a.each(function (index, value) {
+  console.log(index, value);
+    // <-- 0, 333
+    // <-- 1, 444
+}); // <-- Return TRUE
 ```
 
 ### indexOf(x)
