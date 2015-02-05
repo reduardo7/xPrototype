@@ -33,6 +33,20 @@ if (Object.defined(x)) {
 ## Object Properties
 
 ### length
+```Array```/```String```/```Object``` length.
+
+##### Examples
+
+```js
+var w = 'Hello World!';
+alert(w.length); // <-- 12
+
+var a = [ 111, 'aaa', undefined, null, function () {} ];
+alert(a.length); // <-- 5
+
+var o = { 'a': 111, 'b': '222', 'c': null, 'd': undefined, 123: 'num', o: { 'x1': 'x2' } };
+alert(o.length); // <-- 6
+```
 
 ### isNumber
 
