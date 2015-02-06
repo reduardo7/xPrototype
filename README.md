@@ -357,9 +357,92 @@ a.each(function (index, value) {
 
 ### indexOf(x)
 
+Returns the position of the first occurrence of a specified value in a `String`.
+
+Returns the position of a specified value in a `Array`.
+
+Returns the key of a specified value in a `Object`.
+
+###### Param
+
+1. `x` Value to search for.
+
+###### Return
+
+- `Array` & `String`: A `Number`, representing the position where the specified search value occurs, or `-1` if it never occurs.
+- `Object`: A `String`, representing the key where the specified search value occurs, or `null` if it never occurs.
+
+##### Examples
+
+```js
+var a = [ 'foo' ];
+console.log(a.indexOf('foo')); // <-- 0
+console.log(a.indexOf('bar')); // <-- -1
+
+var s = 'abcde';
+console.log(s.indexOf('b')); // <-- 1
+console.log(s.indexOf('x')); // <-- -1
+
+var o = { 'k': 'bar' };
+console.log(a.indexOf('bar')); // <-- "k"
+console.log(a.indexOf('foo')); // <-- null
+```
+
 ### contains(x)
 
+Returns if a specified value exists.
+
+###### Param
+
+1. `x` Value to search for.
+
+###### Return
+
+`Boolean` `TRUE` if the specified search value whas found, or `FALSE` if it never occurs.
+
+##### Examples
+
+```js
+var a = [ 'foo' ];
+console.log(a.contains('foo')); // <-- true
+console.log(a.contains('bar')); // <-- false
+
+var s = 'abcde';
+console.log(s.contains('b')); // <-- true
+console.log(s.contains('x')); // <-- false
+
+var o = { 'k': 'bar' };
+console.log(a.contains('bar')); // <-- true
+console.log(a.contains('foo')); // <-- false
+```
+
 ### containsKey(x)
+
+Returns if a specified _Key_ exists.
+
+###### Param
+
+1. `x` Key to search for.
+
+###### Return
+
+`Boolean` `TRUE` if the specified search _key_ whas found, or `FALSE` if it never occurs.
+
+##### Examples
+
+```js
+var a = [ 'foo' ];
+console.log(a.containsKey(0)); // <-- true
+console.log(a.containsKey(5)); // <-- false
+
+var s = 'abcde';
+console.log(s.containsKey(1)); // <-- true
+console.log(s.containsKey(59)); // <-- false
+
+var o = { 'k': 'bar' };
+console.log(a.containsKey('k')); // <-- true
+console.log(a.containsKey('bar')); // <-- false
+```
 
 ### toBool()
 
