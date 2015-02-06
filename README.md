@@ -246,14 +246,16 @@ console.log(i.getValues()); // <-- ["f", "o", "o"]
 ### getType()
 Returns variable type.
 
-##### Posible Values
+##### Return
 
+Posible values:
 - string
 - function
 - bool
 - int
 - float
 - array
+- object
 
 ##### Examples
 
@@ -301,6 +303,10 @@ console.log(a.toString()); // <-- ""
 console.log(a.toStr()); // <-- "[4,"foo"]"
 console.log(a.toStr(';')); // <-- "[4;"foo"]"
 console.log(a.toStr('-*-')); // <-- "[4-*-"foo"]"
+
+a = {'a': 'foo', 'b': [1, 4, false]};
+console.log(a.toStr()); // <-- "{"a":"foo","b":[1,4,false]}"
+console.log(a.toStr(':')); // <-- "{"a":"foo":"b":[1:4:false]}"
 ```
 
 ### clone()
@@ -446,11 +452,113 @@ console.log(a.containsKey('bar')); // <-- false
 
 ### toBool()
 
+Convert to `Boolean`.
+
+**`TRUE` values:**
+
+- `Boolean` `===` `true`
+- `Number` `!==` `0`
+- `Array` `length` `>` `0`
+- `String`
+  - `length` `>` `0`
+  - `===` `"true"`
+  - `===` `"t"`
+- Others: `!!this`
+
+**`FALSE` values:**
+
+- `Boolean` `===` `false`
+- `Number` `===` `0`
+- `Array` `length` `===` `0`
+- `String`
+  - Empty string
+  - `length` `===` `0`
+  - `===` `"false"`
+  - `===` `"f"`
+- Others: `!!this`
+
+###### Return
+
+`Boolean` representation.
+
+##### Examples
+
+```js
+console.log(([ 'foo' ]).toBool()); // <-- true
+console.log(([]).toBool()); // <-- false
+
+console.log((true).toBool()); // <-- true
+console.log((false).toBool()); // <-- false
+
+console.log((-1).toBool()); // <-- true
+console.log((1).toBool()); // <-- true
+console.log((0).toBool()); // <-- false
+console.log((0.5)toBool()); // <-- false
+
+console.log(('foo').toBool()); // <-- true
+console.log(('   ').toBool()); // <-- false
+console.log(('faLSe').toBool()); // <-- false
+console.log(('F').toBool()); // <-- false
+```
+
 ### toInt()
+
+Convert to `Integer`.
+
+Alias for `parseInt(this, 10)`.
+
+###### Return
+
+`Integer` representation.
+
+##### Examples
+
+```js
+console.log(('123').toInt()); // <-- 123
+console.log(('123.45').toInt()); // <-- 123
+console.log(('asd').toInt()); // <-- NaN
+```
 
 ### toFloat()
 
+Convert to `Float`.
+
+Alias for `parseFloat(this)`.
+
+###### Return
+
+`Float` representation.
+
+##### Examples
+
+```js
+console.log(('123').toInt()); // <-- 123
+console.log(('123.45').toInt()); // <-- 123.45
+console.log(('asd').toInt()); // <-- NaN
+```
+
 ### md5()
+
+Generate _MD5_ hash code for variable.
+
+###### Return
+
+`String[32]` _MD5_ hash code.
+
+##### Examples
+
+```js
+(123).md5(); // <-- "202cb962ac59075b964b07152d234b70"
+(123.1).md5(); // <-- "5e3543e9b72f1c8db3b3907a3928f3c4"
+('').md5(); // <-- "9d4568c009d203ab10e33ea9953a0264"
+(' ').md5(); // <-- "fcc3d7489d15ef49dbbf735234234cf7"
+({'foo': 'bar'}).md5(); // <-- "9bb58f26192e4ba00f01e2e7b136bbd8"
+({0: 'foo', 1: 'bar'}).md5(); // <-- "2118a94a497fc2f7f84920e4ca679e6f"
+(['foo', 'bar']).md5(); // <-- "a246c2ba4df8e46c29e69a3f5429349e"
+(true).md5(); // <-- "b326b5062b2f0e69046810717534cb09"
+('true').md5(); // <-- "ebc576222020c2a2ae2fc769169f1d2a"
+(0).md5(); // <-- "cfcd208495d565ef66e7dff9f98764da"
+```
 
 ## Array Methods
 
