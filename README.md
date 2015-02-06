@@ -299,12 +299,13 @@ console.log(a.toString()); // <-- ""
 console.log(a.toStr()); // <-- "[]"
 
 a = [4, 'foo'];
-console.log(a.toString()); // <-- ""
+console.log(a.toString()); // <-- "4,foo"
 console.log(a.toStr()); // <-- "[4,"foo"]"
 console.log(a.toStr(';')); // <-- "[4;"foo"]"
 console.log(a.toStr('-*-')); // <-- "[4-*-"foo"]"
 
 a = {'a': 'foo', 'b': [1, 4, false]};
+console.log(a.toString()); // <-- "[object Object]"
 console.log(a.toStr()); // <-- "{"a":"foo","b":[1,4,false]}"
 console.log(a.toStr(':')); // <-- "{"a":"foo":"b":[1:4:false]}"
 ```
@@ -562,9 +563,48 @@ Generate _MD5_ hash code for variable.
 
 ## Array Methods
 
-### toString(glue)
+### toStr(glue)
+Generates string representation.
+
+###### Param
+1. `glue` _Default: *","*_. Glue.
+
+###### Return
+String representation.
+
+##### Examples
+
+```js
+var a = [];
+console.log(a.toString()); // <-- ""
+console.log(a.toStr()); // <-- "[]"
+
+a = [4, '5', 'foo'];
+console.log(a.toString()); // <-- "4,5,foo"
+console.log(a.toStr()); // <-- "[4,"5","foo"]"
+console.log(a.toStr(';')); // <-- "[4;"5";"foo"]"
+console.log(a.toStr('-*-')); // <-- "[4-*-"5"-*-"foo"]"
+```
 
 ### contains(x)
+
+Returns if a specified value exists.
+
+###### Param
+
+1. `x` Value to search for.
+
+###### Return
+
+`Boolean` `TRUE` if the specified search value whas found, or `FALSE` if it never occurs.
+
+##### Examples
+
+```js
+var a = [ 'foo' ];
+console.log(a.contains('foo')); // <-- true
+console.log(a.contains('bar')); // <-- false
+```
 
 ## Function Methods
 
