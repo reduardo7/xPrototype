@@ -280,7 +280,7 @@
 		}),
 
 		// To String
-		toString: pval(function (glue) {
+		toStr: pval(function (glue) {
 			return o2s(this, glue);
 		}),
 
@@ -349,7 +349,7 @@
 
 		// MD5
 		md5: pval(function () {
-			return md5(this.toString());
+			return md5(this.toStr());
 		})
 	});
 
@@ -395,7 +395,7 @@
 
 	Object.defineProperties(Array.prototype, {
 		// ToString
-		toString: pval(function (glue) {
+		toStr: pval(function (glue) {
 			return a2s(this, glue);
 		}),
 
