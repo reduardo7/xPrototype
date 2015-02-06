@@ -12,23 +12,30 @@
 		return a.join(glue || ',');
 	}
 
-	function o2s(x) {
-		if (typeof x === 'string')
-			return '"' + x + '"';
-		if (x instanceof Array)
-			return '[' + a2s(x) + ']';
-		if ((x instanceof Function) || (typeof x === 'number'))
-			return x.toString();
-		if (x === undefined)
+	function o2s(x, glue) {
+		var t = typeof x;
+		if ((t === 'boolean') || (x instanceof Boolean))
+			x = x.valueOf(); // To Native boolean
+		if (x === true)
+			return 'true';
+		if (x === false)
+			return 'false';
+		if ((t === 'undefined') || (x === undefined))
 			return 'undefined';
 		if (x === null)
 			return 'null';
+		if ((t === 'string') || (x instanceof String))
+			return '"' + x + '"';
+		if (x instanceof Array)
+			return '[' + a2s(x, glue) + ']';
+		if ((x instanceof Function) || (x instanceof Number) || (t === 'number'))
+			return x.toString();
 
 		var i, a = [];
 		for (i in x)
 			if (x.hasOwnProperty(i))
-				a.push(o2s(i) + ':' + o2s(x[i]));
-		return '{' + a.join(',') + '}';
+				a.push(o2s(i, glue) + ':' + o2s(x[i], glue));
+		return '{' + a.join(glue || ',') + '}';
 	}
 
 	function pget(fn) {
