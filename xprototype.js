@@ -328,6 +328,8 @@
 			var v = parseInt(this, 10);
 			if (!isNaN(v))
 				return (v !== 0);
+			if (this instanceof Array)
+				return this.length > 0;
 			v = this.toString();
 			if (v.trim() === '')
 				return false;
