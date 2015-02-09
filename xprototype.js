@@ -240,6 +240,18 @@
 		}
 	}
 
+	function SortMode(col, desc) {
+		if (this instanceof String.SortMode) {
+			this.value = col.valueOf(col);
+			this.desc = desc;
+			this.asc = !desc;
+
+			this.toString = function () { return this.value; };
+		} else {
+			return new String.SortMode(col, desc);
+		}
+	}
+
 	/** ****** **
 	 *  Object  *
 	 ** ****** **/
@@ -401,14 +413,46 @@
 	 ** ***** **/
 
 	Object.defineProperties(Array.prototype, {
-		// ToString
 		toStr: pval(function (glue) {
 			return a2s(this, glue);
 		}),
-
-		// Contains
 		contains: pval(function (x) {
 			return this.indexOf(x) > -1;
+		}),
+		sortBy: pval(function (col) {
+			if (arguments.length > 1) {
+				var i;
+				for (i = arguments.length - 1; i >= 0; i--)
+					this.sortBy(arguments[i]);
+			} else {
+				if (col instanceof SortMode) {
+					if (col.desc) {
+						// DESC
+						col = col.value;
+						this.sort(function (a, b) {
+							if (a[col] < b[col])
+								return 1;
+							if (a[col] > b[col])
+								return -1;
+							return 0;
+						});
+					} else {
+						// ASC
+						col = col.value;
+						this.sort(function (a, b) {
+							if (a[col] < b[col])
+								return -1;
+							if (a[col] > b[col])
+								return 1;
+							return 0;
+						});
+					}
+				} else {
+					this.sortBy(col.asc);
+				}
+			}
+
+			return this;
 		})
 	});
 
@@ -469,6 +513,8 @@
 	/** ****** **
 	 *  String  *
 	 ** ****** **/
+
+	String.SortMode = SortMode;
 
 	// String: Trim
 	if (typeof String.prototype.trim !== 'function') {
@@ -531,6 +577,14 @@
 			if (s.length <= max)
 				return s;
 			return s.substring(0, max).replace(/\s*$/, '') + end;
+		}),
+
+		// Sort & Order
+		desc: pget(function () {
+			return String.SortMode(this, true);
+		}),
+		asc: pget(function () {
+			return String.SortMode(this, false);
 		})
 	});
 })();
