@@ -362,6 +362,12 @@ a.each(function (index, value) {
 }); // <-- Return TRUE
 ```
 
+### sortByKeyEach(fn)
+
+### sortByKeyDescEach(fn)
+
+### sortByKey(fn)
+
 ### indexOf(x)
 
 Returns the position of the first occurrence of a specified value in a `String`.
@@ -677,6 +683,38 @@ o.sortBy('LastName'.desc, 'Name'.asc).each(function(a, b) { console.log(a, b); }
  2 Object {Name: "Pag", LastName: "Bodine"}
  3 Object {Name: "Pig", LastName: "Bodine"}
 */
+```
+
+### sortAsc()
+
+Sort `Array` by _values_.
+
+###### Return
+
+`This` instance.
+
+##### Examples
+
+```js
+var o = [ 'foo', 'bar', 123 'cen' ];
+
+console.log(o.sortAsc()); // [123, "bar", "cen", "foo"]
+```
+
+### sortDesc()
+
+Sort `Array` by _values_ as _DESC_.
+
+###### Return
+
+`This` instance.
+
+##### Examples
+
+```js
+var o = [ 'foo', 'bar', 123 'cen' ];
+
+console.log(o.sortDesc()); // ["foo", "cen", "bar", 123]
 ```
 
 ## Function Methods
