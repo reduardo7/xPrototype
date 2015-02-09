@@ -1,5 +1,54 @@
 // http://perfectionkills.com/extending-native-builtins/
 (function () {
+	'use strict';
+
+	/** *********** **
+	 *  Support Old  *
+	 ** *********** **/
+
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+	if (!Object.keys) {
+		Object.keys = (function() {
+			var hasOwnProperty = Object.prototype.hasOwnProperty,
+				hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString'),
+				dontEnums = [
+					'toString',
+					'toLocaleString',
+					'valueOf',
+					'hasOwnProperty',
+					'isPrototypeOf',
+					'propertyIsEnumerable',
+					'constructor'
+				],
+				dontEnumsLength = dontEnums.length;
+
+			return function (obj) {
+				if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
+					throw new TypeError('Object.keys called on non-object');
+				}
+
+				var result = [], prop, i;
+
+				for (prop in obj) {
+					if (hasOwnProperty.call(obj, prop)) {
+						result.push(prop);
+					}
+				}
+
+				if (hasDontEnumBug) {
+					for (i = 0; i < dontEnumsLength; i++) {
+						if (hasOwnProperty.call(obj, dontEnums[i])) {
+							result.push(dontEnums[i]);
+						}
+					}
+				}
+
+				return result;
+			};
+		}());
+	}
+
+
 	/** *** **
 	 *  AUX  *
 	 ** *** **/
@@ -228,12 +277,16 @@
 		return hex(md51(s));
 	}
 
-	function add32(a, b) {
+	var _add32 = function (a, b) {
 		return (a + b) & 0xFFFFFFFF;
+	};
+
+	function add32(a, b) {
+		return _add32(a, b);
 	}
 
 	if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
-		function add32(x, y) {
+		_add32 = function (x, y) {
 			var lsw = (x & 0xFFFF) + (y & 0xFFFF),
 				msw = (x >> 16) + (y >> 16) + (lsw >> 16);
 			return (msw << 16) | (lsw & 0xFFFF);
