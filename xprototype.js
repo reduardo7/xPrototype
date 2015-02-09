@@ -320,6 +320,69 @@
 			return true; // All finish
 		}),
 
+		// Sort By Key and For Each
+		// x.sortByKeyEach(function (KeyOrIndex, value) { ... })
+		// Return FALSE to Break
+		sortByKeyEach: pval(function (fn) {
+			if (typeof fn !== 'function')
+				return undefined; // Error
+
+			var i, j,
+				ks = Object.keys(this);
+			
+			ks.sortAsc();
+
+			for (j in ks) if (ks.hasOwnProperty(j)) {
+				i = ks[j];
+
+				if (fn.apply(this[i], [i, this[i]]) === false)
+					return false; // Break
+			}
+
+			return true; // All finish
+		}),
+
+		// Sort By Key DESC and For Each
+		// x.sortByKeyDescEach(function (KeyOrIndex, value) { ... })
+		// Return FALSE to Break
+		sortByKeyDescEach: pval(function (fn) {
+			if (typeof fn !== 'function')
+				return undefined; // Error
+
+			var i, j,
+				ks = Object.keys(this);
+			
+			ks.sortDesc();
+
+			for (j in ks) if (ks.hasOwnProperty(j)) {
+				i = ks[j];
+
+				if (fn.apply(this[i], [i, this[i]]) === false)
+					return false; // Break
+			}
+
+			return true; // All finish
+		}),
+
+		// Sort By
+		sortByKey: pval(function (desc) {
+			var i,
+				o = Object.create(this.constructor),
+				ks = Object.keys(this);
+			
+			if (desc) {
+				ks.sortDesc();
+			} else {
+				ks.sortAsc();
+			}
+
+			for (i in ks)
+				if (ks.hasOwnProperty(i))
+					o[ks[i]] = this[ks[i]];
+
+			return o;
+		}),
+
 		// Index Of
 		indexOf: pval(function (x) {
 			for (var i in this)
@@ -455,6 +518,35 @@
 			return this;
 		})
 	});
+
+	// Array Sort
+	Array.prototype.sortAsc = function () {
+		this.sort(function (a, b) {
+			a = a + ''; // To String
+			b = b + ''; // To String
+			
+			if (a < b)
+				return -1;
+			if (a > b)
+				return 1;
+			return 0;
+		});
+		return this;
+	} ;
+	Array.prototype.sortDesc = function () {
+		this.sort(function (a, b) {
+			a = a + ''; // To String
+			b = b + ''; // To String
+			
+			if (a < b)
+				return 1;
+			if (a > b)
+				return -1;
+			return 0;
+		});
+
+		return this;
+	};
 
 	/** ******** **
 	 *  Function  *
