@@ -282,7 +282,7 @@ i = false;
 console.log(i.getType()); // <-- "bool"
 ```
 
-### toStr(glue)
+### toStr([glue])
 Generates string representation.
 
 ###### Param
@@ -563,7 +563,7 @@ Generate _MD5_ hash code for variable.
 
 ## Array Methods
 
-### toStr(glue)
+### toStr([glue])
 Generates string representation.
 
 ###### Param
@@ -606,15 +606,17 @@ console.log(a.contains('foo')); // <-- true
 console.log(a.contains('bar')); // <-- false
 ```
 
+### sortBy(col1[, col2[, colN]])
+
 ## Function Methods
 
-### timeout(time, args)
+### timeout(time[, args])
 
 ##### timeout.id
 
 ##### timeout.stop()
 
-### interval(time, args)
+### interval(time[, args])
 
 ##### interval.id
 
@@ -634,10 +636,10 @@ console.log(a.contains('bar')); // <-- false
 
 ### toCamelcase()
 
-### splitCamelCase(glue)
+### splitCamelCase([glue])
 
 ### repeat(times)
 
-### cut(max, end)
+### cut(max[, end])
 
-### format(p1, p2, p3, pn)
+### format(p1[, p2[, pn]])
