@@ -608,6 +608,77 @@ console.log(a.contains('bar')); // <-- false
 
 ### sortBy(col1[, col2[, colN]])
 
+Sort `Array` of `Object`'s by _column_/_columns_.
+
+###### Param
+
+Each parameter must be a _column name_. Use `String.prototype.desc` and `String.prototype.asc` to set order.
+
+###### Return
+
+`This` instance.
+
+##### Examples
+
+```js
+var o = [ 
+    { a: 'Lazslo', b: 'Jamf'     },
+    { a: 'Pig',    b: 'Bodine'   },
+    { a: 'Pirate', b: 'Prentice' },
+    { a: 'Pag',    b: 'Bodine'   }
+];
+
+
+// Original
+o.each(function (a, b) { console.log(a, b); });
+/*
+ 0 Object {Name: "Lazslo", LastName: "Jamf"}
+ 1 Object {Name: "Pig", LastName: "Bodine"}
+ 2 Object {Name: "Pirate", LastName: "Prentice"}
+ 3 Object {Name: "Pag", LastName: "Bodine"}
+*/
+
+
+// Sort By LastName ASC, Name ASC
+o.sortBy('LastName', 'Name').each(function(a, b) { console.log(a, b); });
+/*
+ 0 Object {Name: "Pag", LastName: "Bodine"}
+ 1 Object {Name: "Pig", LastName: "Bodine"}
+ 2 Object {Name: "Lazslo", LastName: "Jamf"}
+ 3 Object {Name: "Pirate", LastName: "Prentice"}
+*/
+
+
+// Sort by LastName ASC and Name ASC
+o.sortBy('LastName'.asc, 'Name'.asc).each(function(a, b) { console.log(a, b); });
+/*
+ 0 Object {Name: "Pag", LastName: "Bodine"}
+ 1 Object {Name: "Pig", LastName: "Bodine"}
+ 2 Object {Name: "Lazslo", LastName: "Jamf"}
+ 3 Object {Name: "Pirate", LastName: "Prentice"}
+*/
+
+
+// Sort by LastName DESC and Name DESC
+o.sortBy('LastName'.desc, 'Name'.desc).each(function(a, b) { console.log(a, b); });
+/*
+ 0 Object {Name: "Pirate", LastName: "Prentice"}
+ 1 Object {Name: "Lazslo", LastName: "Jamf"}
+ 2 Object {Name: "Pig", LastName: "Bodine"}
+ 3 Object {Name: "Pag", LastName: "Bodine"}
+*/
+
+
+// Sort by LastName DESC and Name ASC
+o.sortBy('LastName'.desc, 'Name'.asc).each(function(a, b) { console.log(a, b); });
+/*
+ 0 Object {Name: "Pirate", LastName: "Prentice"}
+ 1 Object {Name: "Lazslo", LastName: "Jamf"}
+ 2 Object {Name: "Pag", LastName: "Bodine"}
+ 3 Object {Name: "Pig", LastName: "Bodine"}
+*/
+```
+
 ## Function Methods
 
 ### timeout(time[, args])
