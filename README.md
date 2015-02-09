@@ -622,10 +622,10 @@ Each parameter must be a _column name_. Use `String.prototype.desc` and `String.
 
 ```js
 var o = [ 
-    { a: 'Lazslo', b: 'Jamf'     },
-    { a: 'Pig',    b: 'Bodine'   },
-    { a: 'Pirate', b: 'Prentice' },
-    { a: 'Pag',    b: 'Bodine'   }
+  { Name: 'Lazslo', LastName: 'Jamf'     },
+  { Name: 'Pig',    LastName: 'Bodine'   },
+  { Name: 'Pirate', LastName: 'Prentice' },
+  { Name: 'Pag',    LastName: 'Bodine'   }
 ];
 
 
