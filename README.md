@@ -1,10 +1,10 @@
 # xPrototype
----
----
 
 # What is xPrototype?
 
 **xPrototype** is a fast, small and feature-rich **JavaScript** _library_. It makes things like `for loop`, `for each`, `time out / interval`, `data types`, `sort / order`, `conversion`, `clone object`, `extend object`, `string manipulation` much simpler with an easy-to-use API that works across a multitude of browsers and platforms.
+
+---
 
 # Doc
 
