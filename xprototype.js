@@ -1,4 +1,11 @@
-// http://perfectionkills.com/extending-native-builtins/
+/**
+ * xPrototype v1.0.0
+ * Copyright (c) 2015 xPrototype | Eduardo Daniel Cuomo | eduardo.cuomo.ar@gmail.com
+ *
+ * Project: https://github.com/reduardo7/xPrototype
+ * Doc: https://github.com/reduardo7/xPrototype/blob/master/README.md
+ */
+
 (function () {
 	'use strict';
 
